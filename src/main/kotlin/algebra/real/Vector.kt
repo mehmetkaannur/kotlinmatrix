@@ -1,9 +1,11 @@
+package algebra.real
 data class Vector(private val doubles: List<Double>) {
     init {
         if (doubles.isEmpty()) {
             throw IllegalArgumentException()
         }
     }
+
     val length = doubles.size
     operator fun get(index: Int): Double {
         if (index > length) {
@@ -12,6 +14,7 @@ data class Vector(private val doubles: List<Double>) {
             return doubles[index]
         }
     }
+
     operator fun plus(other: Vector): Vector {
         if (this.length != other.length) {
             throw UnsupportedOperationException()
@@ -19,9 +22,11 @@ data class Vector(private val doubles: List<Double>) {
             return (this + other)
         }
     }
+
     operator fun times(other: Double): Vector {
-        return Vector(this.doubles.map{ it*other })
+        return Vector(this.doubles.map { it * other })
     }
+
     infix fun dot(other: Vector): Double {
         if (this.length != other.length) {
             throw UnsupportedOperationException()
@@ -33,8 +38,8 @@ data class Vector(private val doubles: List<Double>) {
     override fun toString(): String {
         val finalString = StringBuilder()
         finalString.append("(")
-        this.doubles.forEachIndexed{i,d ->
-            if (i == length -1){
+        this.doubles.forEachIndexed { i, d ->
+            if (i == length - 1) {
                 finalString.append("$d")
             } else {
                 finalString.append("$d, ")
@@ -43,4 +48,11 @@ data class Vector(private val doubles: List<Double>) {
         finalString.append(")")
         return finalString.toString()
     }
+
+    fun getDoubles(): List<Double> {
+        return this.doubles
+    }
+}
+operator fun Double.times(other: Vector): Vector {
+    return Vector(other.getDoubles().map { it * this })
 }

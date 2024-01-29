@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="algebra.real.VectorTests" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-01-29T17:25:41" hostname="ash04.doc.ic.ac.uk" time="0.021">
+  <properties/>
+  <testcase name="scalar times vector" classname="algebra.real.VectorTests" time="0.014"/>
+  <testcase name="exception - get at too large index" classname="algebra.real.VectorTests" time="0.0"/>
+  <testcase name="exception - empty vector" classname="algebra.real.VectorTests" time="0.0"/>
+  <testcase name="exception - lengths do not match in dot product" classname="algebra.real.VectorTests" time="0.0"/>
+  <testcase name="dot product" classname="algebra.real.VectorTests" time="0.001"/>
+  <testcase name="vector times scalar" classname="algebra.real.VectorTests" time="0.002"/>
+  <testcase name="string representation" classname="algebra.real.VectorTests" time="0.003"/>
+  <testcase name="get from vector" classname="algebra.real.VectorTests" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
