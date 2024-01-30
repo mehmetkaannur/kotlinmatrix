@@ -1,4 +1,5 @@
 package algebra.real
+
 data class Vector(private val doubles: List<Double>) {
     init {
         if (doubles.isEmpty()) {
@@ -19,7 +20,7 @@ data class Vector(private val doubles: List<Double>) {
         if (this.length != other.length) {
             throw UnsupportedOperationException()
         } else {
-            return (this + other)
+            return Vector((0..<length).map { elem -> this[elem] + other[elem] })
         }
     }
 
@@ -49,10 +50,23 @@ data class Vector(private val doubles: List<Double>) {
         return finalString.toString()
     }
 
+    fun vectorStringer(): String {
+        val finalString = StringBuilder()
+        this.doubles.forEachIndexed { i, d ->
+            if (i == length - 1) {
+                finalString.append("$d")
+            } else {
+                finalString.append("$d ")
+            }
+        }
+        return finalString.toString()
+    }
+
     fun getDoubles(): List<Double> {
         return this.doubles
     }
 }
+
 operator fun Double.times(other: Vector): Vector {
     return Vector(other.getDoubles().map { it * this })
 }

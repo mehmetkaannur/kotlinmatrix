@@ -15,6 +15,13 @@ class VectorTests {
     }
 
     @Test
+    fun `vector plus vector`() {
+        val v1 = Vector(listOf(1.0, 2.0, 3.0))
+        val v2 = Vector(listOf(10.0, 20.0, 30.0))
+        val answer = Vector(listOf(11.0, 22.0, 33.0))
+        assertEquals(answer, v1 + v2)
+    }
+    @Test
     fun `scalar times vector`() {
         val v1 = Vector(listOf(1.0, 2.0, 3.0))
         val scaled = Vector(listOf(10.0, 20.0, 30.0))

@@ -52,32 +52,44 @@ data class Matrix(private val vectors: List<Vector>) {
         }
     }
 
-//    operator fun times(other: Double): Vector {
-//        return Vector(this.doubles.map { it * other })
-//    }
-//
-//    infix fun dot(other: Vector): Double {
-//        if (this.length != other.length) {
-//            throw UnsupportedOperationException()
-//        } else {
-//            return this.doubles.zip(other.doubles).sumOf { (a, b) -> a * b }
-//        }
-//    }
-//
-//    override fun toString(): String {
-//        val finalString = StringBuilder()
-//        finalString.append("(")
-//        this.doubles.forEachIndexed { i, d ->
-//            if (i == length - 1) {
-//                finalString.append("$d")
-//            } else {
-//                finalString.append("$d, ")
-//            }
-//        }
-//        finalString.append(")")
-//        return finalString.toString()
-//    }
+    operator fun times(other: Matrix): Matrix {
+        if (this.numColumns != other.numRows) {
+            throw UnsupportedOperationException()
+        } else {
+            val dotVectors = (0..<this.numRows).map { row ->
+                Vector(
+                    (0..<other.numColumns).map { column ->
+                        this.getRow(row) dot other.getColumn(
+                            column,
+                        )
+                    },
+                )
+            }
+            return Matrix(dotVectors)
+        }
+    }
+
+    operator fun times(other: Double): Matrix {
+        return Matrix(this.vectors.map { it * other })
+    }
+
+    fun getVectors(): List<Vector> {
+        return this.vectors
+    }
+
+
+    override fun toString(): String {
+        val finalString = StringBuilder()
+        var insideString = StringBuilder()
+        (0..<numRows).map { row ->
+            finalString.append("[")
+            finalString.append(this[row].vectorStringer())
+            finalString.append("]\n")
+        }
+        return finalString.toString()
+    }
 }
-// operator fun Double.times(other: Vector): Vector {
-//    return Vector(other.doubles.map { it * this })
-// }
+
+operator fun Double.times(other: Matrix): Matrix {
+    return Matrix(other.getVectors().map { it * this })
+}
