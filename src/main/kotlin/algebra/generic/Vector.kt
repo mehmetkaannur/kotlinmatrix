@@ -1,7 +1,9 @@
-package algebra.real
+package algebra.generic
 
-import algebra.generic.Vector
-
+interface Vector<T> {
+    fun add(a: T, b: T): T
+    fun mul(a: T, b: T): T
+}
 data class Vector(private val doubles: List<Double>) {
     init {
         if (doubles.isEmpty()) {

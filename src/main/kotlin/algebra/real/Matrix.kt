@@ -1,5 +1,7 @@
 package algebra.real
 
+import algebra.generic.Vector
+
 data class Matrix(private val vectors: List<Vector>) {
     init {
         if (vectors.isEmpty()) {
@@ -7,8 +9,8 @@ data class Matrix(private val vectors: List<Vector>) {
         }
     }
 
-    val numRows = vectors.size
-    val numColumns = vectors[1].length
+    val numRows = this.vectors.size
+    val numColumns = this.vectors[1].length
     operator fun get(row: Int): Vector {
         if (row > numRows) {
             throw IndexOutOfBoundsException()
@@ -42,7 +44,7 @@ data class Matrix(private val vectors: List<Vector>) {
     }
 
     operator fun plus(other: Matrix): Matrix {
-        if (this.numRows != other.numRows || this.numColumns != other.numColumns) {
+        if (this.numColumns != other.numColumns || this.numRows != other.numRows) {
             throw UnsupportedOperationException()
         } else {
             val sumElems = (0..numRows).map { row ->
@@ -59,9 +61,7 @@ data class Matrix(private val vectors: List<Vector>) {
             val dotVectors = (0..<this.numRows).map { row ->
                 Vector(
                     (0..<other.numColumns).map { column ->
-                        this.getRow(row) dot other.getColumn(
-                            column,
-                        )
+                        this.getRow(row) dot other.getColumn(column)
                     },
                 )
             }
@@ -77,16 +77,24 @@ data class Matrix(private val vectors: List<Vector>) {
         return this.vectors
     }
 
-
     override fun toString(): String {
         val finalString = StringBuilder()
-        var insideString = StringBuilder()
-        (0..<numRows).map { row ->
-            finalString.append("[")
-            finalString.append(this[row].vectorStringer())
-            finalString.append("]\n")
+        this.vectors.forEachIndexed { rIndex, _ ->
+            val rowElems = this.getRow(rIndex).getDoubles()
+            finalString.append("[ ")
+            rowElems.forEachIndexed { cIndex, elem ->
+                val longest = this.getColumn(cIndex).getMax()
+                val difference = longest - elem.toString().length
+                val add = (" ".repeat(difference)) + elem.toString() + " "
+                finalString.append(add)
+            }
+            if (rIndex != this.numRows - 1) {
+                finalString.append("]\n")
+            } else {
+                finalString.append("]")
+            }
         }
-        return finalString.toString()
+        return finalString.toString().trimIndent()
     }
 }
 

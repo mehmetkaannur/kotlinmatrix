@@ -1,5 +1,6 @@
 package algebra.real
 
+import algebra.generic.Vector
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail

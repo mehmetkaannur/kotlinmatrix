@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="algebra.real.MatrixTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2024-01-30T12:09:25" hostname="ash13.doc.ic.ac.uk" time="0.022">
+<testsuite name="algebra.real.MatrixTests" tests="10" skipped="0" failures="1" errors="0" timestamp="2024-01-30T17:04:33" hostname="ash13.doc.ic.ac.uk" time="0.034">
   <properties/>
-  <testcase name="string  representation" classname="algebra.real.MatrixTests" time="0.022">
-    <failure message="org.junit.ComparisonFailure: expected:&lt;[[ 1.46 2.0   4.0     0.5 1.0 ]&#10;[  0.0 1.0 100.0     2.0 4.0 ]&#10;[  1.0 0.0   1.0 2020.12 4.0 ]&#10;[  2.0 0.0   1.0     1.0 1.0 ]]&gt; but was:&lt;[[1.46 2.0 4.0 0.5 1.0]&#10;[0.0 1.0 100.0 2.0 4.0]&#10;[1.0 0.0 1.0 2020.12 4.0]&#10;[2.0 0.0 1.0 1.0 1.0]&#10;]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[[ 1.46 2.0   4.0     0.5 1.0 ]
-[  0.0 1.0 100.0     2.0 4.0 ]
-[  1.0 0.0   1.0 2020.12 4.0 ]
-[  2.0 0.0   1.0     1.0 1.0 ]]&gt; but was:&lt;[[1.46 2.0 4.0 0.5 1.0]
-[0.0 1.0 100.0 2.0 4.0]
-[1.0 0.0 1.0 2020.12 4.0]
-[2.0 0.0 1.0 1.0 1.0]
-]&gt;
-	at org.junit.Assert.assertEquals(Assert.java:117)
-	at kotlin.test.junit.JUnitAsserter.assertEquals(JUnitSupport.kt:32)
-	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals(Assertions.kt:63)
-	at kotlin.test.AssertionsKt.assertEquals(Unknown Source)
-	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals$default(Assertions.kt:62)
-	at kotlin.test.AssertionsKt.assertEquals$default(Unknown Source)
-	at algebra.real.MatrixTests.string  representation(MatrixTests.kt:123)
+  <testcase name="exception - add matrices with different row counts" classname="algebra.real.MatrixTests" time="0.013">
+    <failure message="java.lang.IndexOutOfBoundsException: Index: 1, Size: 1" type="java.lang.IndexOutOfBoundsException">java.lang.IndexOutOfBoundsException: Index: 1, Size: 1
+	at java.base/java.util.Collections$SingletonList.get(Collections.java:4959)
+	at algebra.real.Matrix.&lt;init&gt;(Matrix.kt:11)
+	at algebra.real.MatrixTests.exception - add matrices with different row counts(MatrixTests.kt:159)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -62,6 +51,15 @@
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
+  <testcase name="exception - too large column index" classname="algebra.real.MatrixTests" time="0.0"/>
+  <testcase name="string  representation" classname="algebra.real.MatrixTests" time="0.018"/>
+  <testcase name="left multiply by scalar" classname="algebra.real.MatrixTests" time="0.002"/>
+  <testcase name="matrix multiplication" classname="algebra.real.MatrixTests" time="0.0"/>
+  <testcase name="get column" classname="algebra.real.MatrixTests" time="0.0"/>
+  <testcase name="exception - negative row index" classname="algebra.real.MatrixTests" time="0.001"/>
+  <testcase name="right multiply by scalar" classname="algebra.real.MatrixTests" time="0.0"/>
+  <testcase name="exception - multiply matrices with incompatible sizes" classname="algebra.real.MatrixTests" time="0.0"/>
+  <testcase name="exception - negative column index" classname="algebra.real.MatrixTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

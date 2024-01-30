@@ -1,5 +1,6 @@
 package algebra.real
 
+import algebra.generic.Vector
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -122,66 +123,65 @@ class MatrixTests {
 
         assertEquals(stringRepresentation, m1.toString())
     }
+
+    @Test
+    fun `exception - negative row index`() {
+        try {
+            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getRow(-1)
+            fail("IndexOutOfBoundsException was expected.")
+        } catch (exception: IndexOutOfBoundsException) {
+            // Good: exception was expected.
+        }
+    }
+
+    @Test
+    fun `exception - negative column index`() {
+        try {
+            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getColumn(-1)
+            fail("IndexOutOfBoundsException was expected.")
+        } catch (exception: IndexOutOfBoundsException) {
+            // Good: exception was expected.
+        }
+    }
+
+    @Test
+    fun `exception - too large column index`() {
+        try {
+            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getColumn(2)
+            fail("IndexOutOfBoundsException was expected.")
+        } catch (exception: IndexOutOfBoundsException) {
+            // Good: exception was expected.
+        }
+    }
+
+    @Test
+    fun `exception - add matrices with different row counts`() {
+        val m1 = Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
+        val m2 = Matrix(listOf(Vector(listOf(1.0, 1.0))))
+        try {
+            m1 + m2
+            fail("UnsupportedOperationException was expected")
+        } catch (exception: UnsupportedOperationException) {
+            // Good: exception was expected.
+        }
+    }
+
+    @Test
+    fun `exception - multiply matrices with incompatible sizes`() {
+        val m1 = Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
+        val m2 = Matrix(
+            listOf(
+                Vector(listOf(1.0, 1.0, 1.0)),
+                Vector(listOf(1.0, 1.0, 1.0)),
+                Vector(listOf(1.0, 1.0, 1.0)),
+            ),
+        )
+        try {
+            m1 * m2
+            fail("UnsupportedOperationException was expected")
+        } catch (exception: UnsupportedOperationException) {
+            // Good: exception was expected.
+        }
+    }
+
 }
-//
-//    @Test
-//    fun `exception - negative row index`() {
-//        try {
-//            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getRow(-1)
-//            fail("IndexOutOfBoundsException was expected.")
-//        } catch (exception: IndexOutOfBoundsException) {
-//            // Good: exception was expected.
-//        }
-//    }
-//
-//    @Test
-//    fun `exception - negative column index`() {
-//        try {
-//            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getColumn(-1)
-//            fail("IndexOutOfBoundsException was expected.")
-//        } catch (exception: IndexOutOfBoundsException) {
-//            // Good: exception was expected.
-//        }
-//    }
-//
-//    @Test
-//    fun `exception - too large column index`() {
-//        try {
-//            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getColumn(2)
-//            fail("IndexOutOfBoundsException was expected.")
-//        } catch (exception: IndexOutOfBoundsException) {
-//            // Good: exception was expected.
-//        }
-//    }
-//
-//    @Test
-//    fun `exception - add matrices with different row counts`() {
-//        val m1 = Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
-//        val m2 = Matrix(listOf(Vector(listOf(1.0, 1.0))))
-//        try {
-//            m1 + m2
-//            fail("UnsupportedOperationException was expected")
-//        } catch (exception: UnsupportedOperationException) {
-//            // Good: exception was expected.
-//        }
-//    }
-//
-//    @Test
-//    fun `exception - multiply matrices with incompatible sizes`() {
-//        val m1 = Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
-//        val m2 = Matrix(
-//            listOf(
-//                Vector(listOf(1.0, 1.0, 1.0)),
-//                Vector(listOf(1.0, 1.0, 1.0)),
-//                Vector(listOf(1.0, 1.0, 1.0)),
-//            ),
-//        )
-//        try {
-//            m1 * m2
-//            fail("UnsupportedOperationException was expected")
-//        } catch (exception: UnsupportedOperationException) {
-//            // Good: exception was expected.
-//        }
-//    }
-//
-//}
