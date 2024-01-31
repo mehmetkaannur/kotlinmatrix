@@ -205,9 +205,9 @@ class NestedMatrixTests {
             ),
         )
 
-        assertEquals(nestedMatrixLeftScaledByM1, m1 * nestedMatrix)
-        assertEquals(nestedMatrixRightScaledByM1, nestedMatrix * m1)
-        assertEquals(nestedMatrixLeftScaledByM2, m2 * nestedMatrix)
-        assertEquals(nestedMatrixRightScaledByM2, nestedMatrix * m2)
+        assertEquals(nestedMatrixLeftScaledByM1.toString(), (m1 * nestedMatrix).toString())
+        assertEquals(nestedMatrixRightScaledByM1.toString(), (nestedMatrix * m1).toString())
+        assertEquals(nestedMatrixLeftScaledByM2.toString(), (m2 * nestedMatrix).toString())
+        assertEquals(nestedMatrixRightScaledByM2.toString(), (nestedMatrix * m2).toString())
     }
 }

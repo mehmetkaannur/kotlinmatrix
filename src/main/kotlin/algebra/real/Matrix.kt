@@ -58,9 +58,9 @@ data class Matrix(private val vectors: List<Vector>) {
         } else {
             val dotVectors = (0..<this.numRows).map { row ->
                 Vector(
-                        (0..<other.numColumns).map { column ->
-                            this.getRow(row) dot other.getColumn(column)
-                        },
+                    (0..<other.numColumns).map { column ->
+                        this.getRow(row) dot other.getColumn(column)
+                    },
                 )
             }
             return Matrix(dotVectors)
