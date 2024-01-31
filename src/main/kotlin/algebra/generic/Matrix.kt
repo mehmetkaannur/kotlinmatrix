@@ -45,13 +45,26 @@ data class Matrix<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T,
         if (this.numColumns != other.numColumns || this.numRows != other.numRows) {
             throw UnsupportedOperationException()
         } else {
-            val sumElems = (0..numRows).map { row ->
-                (0..numColumns).map { column -> addition(this[row, column], other[row, column]) }
+            val sumElems = (0..<numRows).map { row ->
+                (0..<numColumns).map { column -> addition(this[row, column], other[row, column]) }
             }
             return Matrix<T>(addition, multiplication, sumElems.map { Vector(addition, multiplication, it) })
         }
     }
 
+    @JvmName("matricies")
+    operator fun times(other: Matrix<Matrix<T>>): Matrix<Matrix<T>> {
+        if (this.numColumns != other.numRows) {
+            throw UnsupportedOperationException()
+        } else {
+            val elems = (0..<this.numRows).map { row ->
+                (0..<this.numColumns).map { column -> this * other[row, column] }
+            }
+            return makeMatrix({x, y -> x.plus(y)}, {x, y -> times(y)}, elems)
+        }
+    }
+
+    @JvmName("matrix")
     operator fun times(other: Matrix<T>): Matrix<T> {
         if (this.numColumns != other.numRows) {
             throw UnsupportedOperationException()
@@ -68,11 +81,12 @@ data class Matrix<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T,
     }
 
     operator fun times(other: T): Matrix<T> {
-        return Matrix<T>(addition, multiplication, this.vectors.map { it * other })
-    }
-
-    fun getVectors(): List<Vector<T>> {
-        return this.vectors
+            val elems = (0..<this.numRows).map { row ->
+                (0..<this.numColumns).map { column ->
+                            multiplication(this[row, column], other)
+                        }
+            }
+            return Matrix(addition, multiplication, elems.map { Vector(addition, multiplication, it) })
     }
 
     override fun toString(): String {
@@ -95,7 +109,15 @@ data class Matrix<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T,
         return finalString.toString().trimIndent()
     }
 }
-
+fun <T> makeMatrix(plus: (T, T) -> T, times: (T, T) -> T, list: List<List<T>>): Matrix<T> {
+    val vectorList: List<Vector<T>> = list.map { Vector(plus, times, it) }
+    return Matrix(plus, times, vectorList)
+}
 operator fun Any.times(other: Matrix<Any>): Matrix<Any> {
-    return Matrix<Any>(other.addition, other.multiplication, other.getVectors().map { it * this })
+    val elems = (0..<other.numRows).map { row ->
+        (0..<other.numColumns).map { column ->
+            other.multiplication(other[row, column], other)
+        }
+    }
+    return Matrix(other.addition, other.multiplication, elems.map { Vector(other.addition, other.multiplication, it) })
 }

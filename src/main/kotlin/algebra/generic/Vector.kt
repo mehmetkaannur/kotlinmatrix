@@ -1,6 +1,6 @@
 package algebra.generic
 
-data class Vector<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T, var contents: List<T>) {
+data class Vector<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T, private var contents: List<T>) {
     init {
         if (contents.isEmpty()) {
             throw IllegalArgumentException()
