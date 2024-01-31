@@ -7,8 +7,8 @@ data class Matrix(private val vectors: List<Vector>) {
         }
     }
 
-    val numRows = this.vectors.size
-    val numColumns = this.vectors[1].length
+    private val numRows = this.vectors.size
+    private val numColumns = this.vectors[1].length
     operator fun get(row: Int): Vector {
         if (row > numRows) {
             throw IndexOutOfBoundsException()
