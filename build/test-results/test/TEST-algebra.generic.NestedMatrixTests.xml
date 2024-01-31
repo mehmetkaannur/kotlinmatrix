@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="algebra.generic.NestedMatrixTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-01-31T13:37:55" hostname="ash06.doc.ic.ac.uk" time="0.048">
+<testsuite name="algebra.generic.NestedMatrixTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-31T14:10:02" hostname="ash06.doc.ic.ac.uk" time="0.031">
   <properties/>
-  <testcase name="add nested matrices" classname="algebra.generic.NestedMatrixTests" time="0.021"/>
-  <testcase name="left and right multiplication by matrix scalar" classname="algebra.generic.NestedMatrixTests" time="0.026"/>
-  <testcase name="multiply nested matrices" classname="algebra.generic.NestedMatrixTests" time="0.001"/>
+  <testcase name="make vector" classname="algebra.generic.NestedMatrixTests" time="0.031"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -24,6 +24,22 @@ class MatrixTests {
     }
 
     @Test
+    fun `get row`() {
+        val m1 = Matrix(
+            listOf(
+                Vector(listOf(1.0, 2.0, 3.0, 0.5, 1.0)),
+                Vector(listOf(0.0, 1.0, 0.0, 2.0, 3.0)),
+                Vector(listOf(1.0, 0.0, 1.0, 2.0, 4.0)),
+                Vector(listOf(2.0, 0.0, 1.0, 1.0, 1.0)),
+            ),
+        )
+        assertEquals(Vector(listOf(1.0, 2.0, 3.0, 0.5, 1.0)), m1.getRow(0))
+        assertEquals(Vector(listOf(0.0, 1.0, 0.0, 2.0, 3.0)), m1.getRow(1))
+        assertEquals(Vector(listOf(1.0, 0.0, 1.0, 2.0, 4.0)), m1.getRow(2))
+        assertEquals(Vector(listOf(2.0, 0.0, 1.0, 1.0, 1.0)), m1.getRow(3))
+    }
+
+    @Test
     fun `matrix multiplication`() {
         val m1 = Matrix(
             listOf(
@@ -126,7 +142,12 @@ class MatrixTests {
     @Test
     fun `exception - negative row index`() {
         try {
-            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getRow(-1)
+            Matrix(
+                listOf(
+                    Vector(listOf(1.0, 1.0)),
+                    Vector(listOf(1.0, 1.0)),
+                ),
+            ).getRow(-1)
             fail("IndexOutOfBoundsException was expected.")
         } catch (exception: IndexOutOfBoundsException) {
             // Good: exception was expected.
@@ -136,7 +157,12 @@ class MatrixTests {
     @Test
     fun `exception - negative column index`() {
         try {
-            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getColumn(-1)
+            Matrix(
+                listOf(
+                    Vector(listOf(1.0, 1.0)),
+                    Vector(listOf(1.0, 1.0)),
+                ),
+            ).getColumn(-1)
             fail("IndexOutOfBoundsException was expected.")
         } catch (exception: IndexOutOfBoundsException) {
             // Good: exception was expected.
@@ -146,7 +172,12 @@ class MatrixTests {
     @Test
     fun `exception - too large column index`() {
         try {
-            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0)))).getColumn(2)
+            Matrix(
+                listOf(
+                    Vector(listOf(1.0, 1.0)),
+                    Vector(listOf(1.0, 1.0)),
+                ),
+            ).getColumn(2)
             fail("IndexOutOfBoundsException was expected.")
         } catch (exception: IndexOutOfBoundsException) {
             // Good: exception was expected.
@@ -155,8 +186,15 @@ class MatrixTests {
 
     @Test
     fun `exception - add matrices with different row counts`() {
-        val m1 = Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
-        val m2 = Matrix(listOf(Vector(listOf(1.0, 1.0))))
+        val m1 = Matrix(
+            listOf(
+                Vector(listOf(1.0, 1.0)),
+                Vector(listOf(1.0, 1.0)),
+                Vector(listOf(1.0, 1.0)),
+            ),
+        )
+        val m2 =
+            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
         try {
             m1 + m2
             fail("UnsupportedOperationException was expected")
@@ -167,7 +205,8 @@ class MatrixTests {
 
     @Test
     fun `exception - multiply matrices with incompatible sizes`() {
-        val m1 = Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
+        val m1 =
+            Matrix(listOf(Vector(listOf(1.0, 1.0)), Vector(listOf(1.0, 1.0))))
         val m2 = Matrix(
             listOf(
                 Vector(listOf(1.0, 1.0, 1.0)),
@@ -182,5 +221,4 @@ class MatrixTests {
             // Good: exception was expected.
         }
     }
-
 }

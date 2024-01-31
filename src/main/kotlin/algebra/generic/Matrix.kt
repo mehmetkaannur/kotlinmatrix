@@ -21,7 +21,7 @@ data class Matrix<T>(
         }
     }
 
-    fun getRow(row: Int): Vector<T> {
+    private fun getRow(row: Int): Vector<T> {
         if (row > numRows) {
             throw IndexOutOfBoundsException()
         } else {
@@ -61,7 +61,7 @@ data class Matrix<T>(
                     )
                 }
             }
-            return Matrix<T>(
+            return Matrix(
                 addition,
                 multiplication,
                 sumElems.map { Vector(addition, multiplication, it) },
@@ -69,7 +69,7 @@ data class Matrix<T>(
         }
     }
 
-    @JvmName("matricies")
+    @JvmName("matrices")
     operator fun times(other: Matrix<Matrix<T>>): Matrix<Matrix<T>> {
         if (this.numColumns != other.numRows) {
             throw UnsupportedOperationException()
@@ -79,7 +79,7 @@ data class Matrix<T>(
             }
             return makeMatrix(
                 { x, y -> x.plus(y) },
-                { x, y -> times(y) },
+                { _, y -> times(y) },
                 elems,
             )
         }
@@ -99,7 +99,7 @@ data class Matrix<T>(
                     },
                 )
             }
-            return Matrix<T>(addition, multiplication, dotVectors)
+            return Matrix(addition, multiplication, dotVectors)
         }
     }
 

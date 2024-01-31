@@ -20,12 +20,12 @@ data class Vector<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T,
         if (this.length != other.length) {
             throw UnsupportedOperationException()
         } else {
-            return Vector<T>(addition, multiplication, (0..<length).map { elem -> addition(this[elem], other[elem]) })
+            return Vector(addition, multiplication, (0..<length).map { elem -> addition(this[elem], other[elem]) })
         }
     }
 
     operator fun times(other: T): Vector<T> {
-        return Vector<T>(addition, multiplication, this.contents.map { multiplication(it, other) })
+        return Vector(addition, multiplication, this.contents.map { multiplication(it, other) })
     }
 
     infix fun dot(other: Vector<T>): T {
@@ -60,5 +60,5 @@ data class Vector<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T,
 }
 
 operator fun Any.times(other: Vector<Any>): Vector<Any> {
-    return Vector<Any>(other.addition, other.multiplication, other.getContents().map { other.multiplication(it, this) })
+    return Vector(other.addition, other.multiplication, other.getContents().map { other.multiplication(it, this) })
 }

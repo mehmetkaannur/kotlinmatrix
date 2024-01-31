@@ -42,13 +42,13 @@ data class Matrix(private val vectors: List<Vector>) {
     }
 
     operator fun plus(other: Matrix): Matrix {
-        if (this.numColumns != other.numColumns || this.numRows != other.numRows) {
-            throw UnsupportedOperationException()
-        } else {
+        if (this.numColumns == other.numColumns && this.numRows == other.numRows) {
             val sumElems = (0..numRows).map { row ->
                 (0..numColumns).map { column -> this[row, column] + other[row, column] }
             }
             return Matrix(sumElems.map { Vector(it) })
+        } else {
+            throw UnsupportedOperationException()
         }
     }
 

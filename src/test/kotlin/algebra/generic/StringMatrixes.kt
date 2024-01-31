@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 class StringMatrixes {
 
     @Test
-    fun `mutlitply string matrices`() {
+    fun `multiply string matrices`() {
         val stringAlgebraFactory = AlgebraFactory<String>(
             plus = { a, b -> a + "+" + b },
             times = { a, b -> a + "*" + b },

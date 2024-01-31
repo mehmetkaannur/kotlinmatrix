@@ -1,5 +1,6 @@
 package algebra.generic
 
+import algebra.real.Vector
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -7,7 +8,49 @@ class NestedMatrixTests {
 
     private val innerFactory = AlgebraFactory(Int::plus, Int::times)
 
-    private val outerFactory = AlgebraFactory(Matrix<Int>::plus, Matrix<Int>::times)
+    private val outerFactory =
+        AlgebraFactory(Matrix<Int>::plus, Matrix<Int>::times)
+
+    @Test
+    fun `get column`() {
+        val m1 = innerFactory.makeMatrix(
+            listOf(
+                listOf(1, 2),
+                listOf(3, 4),
+            ),
+        )
+        assertEquals(
+            algebra.generic.Vector(
+                { x, y -> x + y },
+                { x, y -> x * y },
+                listOf(1, 3),
+            ).toString(),
+            m1.getColumn(0).toString(),
+        )
+        assertEquals(
+            algebra.generic.Vector(
+                { x, y -> x + y },
+                { x, y -> x * y },
+                listOf(2, 4),
+            ).toString(),
+            m1.getColumn(1).toString(),
+        )
+    }
+
+    @Test
+    fun `make vector`() {
+        val v1 = innerFactory.makeVector(
+            listOf(1, 2),
+        )
+        assertEquals(
+            algebra.generic.Vector(
+                Int::plus,
+                Int::times,
+                listOf(1, 2),
+            ),
+            v1,
+        )
+    }
 
     @Test
     fun `add nested matrices`() {
@@ -205,9 +248,21 @@ class NestedMatrixTests {
             ),
         )
 
-        assertEquals(nestedMatrixLeftScaledByM1.toString(), (m1 * nestedMatrix).toString())
-        assertEquals(nestedMatrixRightScaledByM1.toString(), (nestedMatrix * m1).toString())
-        assertEquals(nestedMatrixLeftScaledByM2.toString(), (m2 * nestedMatrix).toString())
-        assertEquals(nestedMatrixRightScaledByM2.toString(), (nestedMatrix * m2).toString())
+        assertEquals(
+            nestedMatrixLeftScaledByM1.toString(),
+            (m1 * nestedMatrix).toString(),
+        )
+        assertEquals(
+            nestedMatrixRightScaledByM1.toString(),
+            (nestedMatrix * m1).toString(),
+        )
+        assertEquals(
+            nestedMatrixLeftScaledByM2.toString(),
+            (m2 * nestedMatrix).toString(),
+        )
+        assertEquals(
+            nestedMatrixRightScaledByM2.toString(),
+            (nestedMatrix * m2).toString(),
+        )
     }
 }
