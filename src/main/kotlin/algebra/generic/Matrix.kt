@@ -1,6 +1,6 @@
-package algebra.real
+package algebra.generic
 
-data class Matrix(private val vectors: List<Vector>) {
+data class Matrix<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T, var vectors: List<Vector<T>>) {
     init {
         if (vectors.isEmpty()) {
             throw IllegalArgumentException()
@@ -9,7 +9,7 @@ data class Matrix(private val vectors: List<Vector>) {
 
     val numRows = this.vectors.size
     val numColumns = this.vectors[1].length
-    operator fun get(row: Int): Vector {
+    operator fun get(row: Int): Vector<T> {
         if (row > numRows) {
             throw IndexOutOfBoundsException()
         } else {
@@ -17,7 +17,7 @@ data class Matrix(private val vectors: List<Vector>) {
         }
     }
 
-    fun getRow(row: Int): Vector {
+    fun getRow(row: Int): Vector<T> {
         if (row > numRows) {
             throw IndexOutOfBoundsException()
         } else {
@@ -25,15 +25,15 @@ data class Matrix(private val vectors: List<Vector>) {
         }
     }
 
-    fun getColumn(column: Int): Vector {
+    fun getColumn(column: Int): Vector<T> {
         if (column > numColumns) {
             throw IndexOutOfBoundsException()
         } else {
-            return Vector(this.vectors.map { it[column] })
+            return Vector(addition, multiplication, this.vectors.map { it[column] })
         }
     }
 
-    operator fun get(row: Int, column: Int): Double {
+    operator fun get(row: Int, column: Int): T {
         if (row > numRows || column > numColumns) {
             throw IndexOutOfBoundsException()
         } else {
@@ -41,44 +41,44 @@ data class Matrix(private val vectors: List<Vector>) {
         }
     }
 
-    operator fun plus(other: Matrix): Matrix {
+    operator fun plus(other: Matrix<T>): Matrix<T> {
         if (this.numColumns != other.numColumns || this.numRows != other.numRows) {
             throw UnsupportedOperationException()
         } else {
             val sumElems = (0..numRows).map { row ->
-                (0..numColumns).map { column -> this[row, column] + other[row, column] }
+                (0..numColumns).map { column -> addition(this[row, column], other[row, column]) }
             }
-            return Matrix(sumElems.map { Vector(it) })
+            return Matrix<T>(addition, multiplication, sumElems.map { Vector(addition, multiplication, it) })
         }
     }
 
-    operator fun times(other: Matrix): Matrix {
+    operator fun times(other: Matrix<T>): Matrix<T> {
         if (this.numColumns != other.numRows) {
             throw UnsupportedOperationException()
         } else {
             val dotVectors = (0..<this.numRows).map { row ->
-                Vector(
+                Vector(addition, multiplication,
                         (0..<other.numColumns).map { column ->
                             this.getRow(row) dot other.getColumn(column)
                         },
                 )
             }
-            return Matrix(dotVectors)
+            return Matrix<T>(addition, multiplication, dotVectors)
         }
     }
 
-    operator fun times(other: Double): Matrix {
-        return Matrix(this.vectors.map { it * other })
+    operator fun times(other: T): Matrix<T> {
+        return Matrix<T>(addition, multiplication, this.vectors.map { it * other })
     }
 
-    fun getVectors(): List<Vector> {
+    fun getVectors(): List<Vector<T>> {
         return this.vectors
     }
 
     override fun toString(): String {
         val finalString = StringBuilder()
         this.vectors.forEachIndexed { rIndex, _ ->
-            val rowElems = this.getRow(rIndex).getDoubles()
+            val rowElems = this.getRow(rIndex).getContents()
             finalString.append("[ ")
             rowElems.forEachIndexed { cIndex, elem ->
                 val longest = this.getColumn(cIndex).getMax()
@@ -96,6 +96,6 @@ data class Matrix(private val vectors: List<Vector>) {
     }
 }
 
-operator fun Double.times(other: Matrix): Matrix {
-    return Matrix(other.getVectors().map { it * this })
+operator fun Any.times(other: Matrix<Any>): Matrix<Any> {
+    return Matrix<Any>(other.addition, other.multiplication, other.getVectors().map { it * this })
 }

@@ -1,7 +1,5 @@
 package algebra.real
 
-import algebra.generic.Vector
-
 data class Vector(private val doubles: List<Double>) {
     init {
         if (doubles.isEmpty()) {

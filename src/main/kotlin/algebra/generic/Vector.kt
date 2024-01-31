@@ -1,49 +1,45 @@
 package algebra.generic
 
-interface Vector<T> {
-    fun add(a: T, b: T): T
-    fun mul(a: T, b: T): T
-}
-data class Vector(private val doubles: List<Double>) {
+data class Vector<T>(var addition: (T, T) -> T, var multiplication: (T, T) -> T, var contents: List<T>) {
     init {
-        if (doubles.isEmpty()) {
+        if (contents.isEmpty()) {
             throw IllegalArgumentException()
         }
     }
 
-    val length = doubles.size
-    operator fun get(index: Int): Double {
+    val length = contents.size
+    operator fun get(index: Int): T {
         if (index > length) {
             throw IndexOutOfBoundsException()
         } else {
-            return doubles[index]
+            return contents[index]
         }
     }
 
-    operator fun plus(other: Vector): Vector {
+    operator fun plus(other: Vector<T>): Vector<T> {
         if (this.length != other.length) {
             throw UnsupportedOperationException()
         } else {
-            return Vector((0..<length).map { elem -> this[elem] + other[elem] })
+            return Vector<T>(addition, multiplication, (0..<length).map { elem -> addition(this[elem], other[elem]) })
         }
     }
 
-    operator fun times(other: Double): Vector {
-        return Vector(this.doubles.map { it * other })
+    operator fun times(other: T): Vector<T> {
+        return Vector<T>(addition, multiplication, this.contents.map { multiplication(it, other) })
     }
 
-    infix fun dot(other: Vector): Double {
+    infix fun dot(other: Vector<T>): T {
         if (this.length != other.length) {
             throw UnsupportedOperationException()
         } else {
-            return this.doubles.zip(other.doubles).sumOf { (a, b) -> a * b }
+            return this.contents.zip(other.contents).map { (a, b) -> multiplication(a, b) }.reduce(addition)
         }
     }
 
     override fun toString(): String {
         val finalString = StringBuilder()
         finalString.append("(")
-        this.doubles.forEachIndexed { i, d ->
+        this.contents.forEachIndexed { i, d ->
             if (i == length - 1) {
                 finalString.append("$d")
             } else {
@@ -54,15 +50,15 @@ data class Vector(private val doubles: List<Double>) {
         return finalString.toString()
     }
 
-    fun getDoubles(): List<Double> {
-        return this.doubles
+    fun getContents(): List<T> {
+        return this.contents
     }
 
     fun getMax(): Int {
-        return this.doubles.maxOf { elem -> elem.toString().length }
+        return this.contents.maxOf { elem -> elem.toString().length }
     }
 }
 
-operator fun Double.times(other: Vector): Vector {
-    return Vector(other.getDoubles().map { it * this })
+operator fun Any.times(other: Vector<Any>): Vector<Any> {
+    return Vector<Any>(other.addition, other.multiplication, other.getContents().map { other.multiplication(it, this) })
 }
